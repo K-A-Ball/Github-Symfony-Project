@@ -22,7 +22,6 @@ export default function UserInformationTable() {
   const [user_to_search, setUserToSearch] = useState("");
   const [user_data, setUserData] = useState([]);
   const [cached_searches, setCachedSearches] = useState([]);
-  const [cached_updated_profile_times, SetUpdatedProfileTimes] = useState([])
   const [updated_profile_time, setUpdatedProfileTime] = useState("")
   const [invalid_searches, setInvalidSearches] = useState([]);
   const [invalid_search, setInvalidSearch] = useState(false);
@@ -30,32 +29,32 @@ export default function UserInformationTable() {
 
   const handleSearch = (user_string) => {
     const previous_search_data = cached_searches.filter(search_dict => Object.keys(search_dict).includes(user_string))
-    if (previous_search_data.length > 0) {
-      setUserData(Object.entries(previous_search_data[0][user_string]).filter(([key, value]) => keys_to_display.includes(key)))
-      findAndSetUpdatedProfileTime(previous_search_data[0][user_string])
-    } else {
-      getUserDataFromApi(user_string)
-    }
+    previous_search_data.length > 0 ? setDataFromCache(previous_search_data, user_string) : getUserDataFromApi(user_string)
   }
 
-  const findAndSetUpdatedProfileTime = (user_data) => {
-    const [_, updated_profile_time] = Object.entries(user_data).filter(([key, value]) => key === "updated_at").flat()
+  const setDataFromCache = (previous_search_data, user_string) => {
+    const user_info = previous_search_data[0][user_string];
+    setUserData(Object.entries(user_info).filter(([key, value]) => keys_to_display.includes(key)))
+    findAndSetUpdatedProfileTime(user_info)
+  }
+
+  const findAndSetUpdatedProfileTime = (user_info) => {
+    const [_, updated_profile_time] = Object.entries(user_info).filter(([key, value]) => key === "updated_at").flat()
     setUpdatedProfileTime(updated_profile_time)
   }
 
 
-  const cacheUserData = (user_data, user_string, cache_type) => {
+  const cacheUserData = (user_info, user_string) => {
     const user_dict = {}
-    user_dict[user_string] = user_data;
+    user_dict[user_string] = user_info;
     setCachedSearches([...cached_searches, user_dict])
   }
 
-  const setDataToDisplayAndCache = (user_data, user_string) => {
-    const filtered_user_data = Object.entries(user_data).filter(([key, value]) => keys_to_display.includes(key))
-    const [_, updated_profile_time] = Object.entries(user_data).filter(([key, value]) => key === "updated_at").flat()
-    setUpdatedProfileTime(updated_profile_time)
+  const setDataToDisplayAndCache = (user_info, user_string) => {
+    const filtered_user_data = Object.entries(user_info).filter(([key, value]) => keys_to_display.includes(key))
+    findAndSetUpdatedProfileTime(user_info)
     setUserData(filtered_user_data)
-    cacheUserData(user_data, user_string)
+    cacheUserData(user_info, user_string)
   }
 
   const setSearchAsInvalidAndCache = (username) => {
@@ -94,7 +93,7 @@ export default function UserInformationTable() {
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow className="user_search_row">
-              <TableCell>
+              <TableCell style={{ display: "inline-flex" }}>
                 <TextField onChange={(e) => handleSearchInput(e)} error={invalid_search} label={invalid_search ? "User not found" : "Search for a user"} />
                 <button onClick={(e) => handleSearch(user_to_search)}> Search </button>
               </TableCell>
