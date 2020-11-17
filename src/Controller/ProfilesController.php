@@ -31,11 +31,7 @@ class ProfilesController extends AbstractController {
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_USERAGENT, "Accessing Github user.");
-        $result = curl_exec($curl);
-        $json = json_decode($result, 1);
-        $resources = $json["updated_at"];
-
-        return $this->JSON($resources);
+        $result = json_decode(curl_exec($curl), 1);
+        return $this->JSON($result);
     }
-
 }
