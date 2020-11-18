@@ -67,7 +67,7 @@ export default function UserInformationTable() {
     if (invalid_searches.includes(user_string)) {
       setInvalidSearch(true)
     } else {
-      axios.get(`/profiles/${user_string}`).then(response => {
+      axios.get(`/profile/${user_string}`).then(response => {
         response.data.message === "Not Found" ? setSearchAsInvalidAndCache(user_string) : setDataToDisplayAndCache(response.data, user_string)
       }).catch(error => {
         console.log(error)

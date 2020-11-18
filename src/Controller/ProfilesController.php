@@ -8,7 +8,7 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 class ProfilesController extends AbstractController {
     
     /**
-     * @Route("/profiles", name="profiles")
+     * @Route("/profile", name="profiles")
      */
         public function index(): Response
     {
@@ -18,10 +18,10 @@ class ProfilesController extends AbstractController {
     }
 
     /**
-     * @Route("/profiles/{username}", name="user_profile_search")
+     * @Route("/profile/{username}", name="user_profile_search")
      */
 
-    public function update(): Response
+    public function retrieve_user_data(): Response
     {
         // get base from url and extract it as username var
         $uri = $_SERVER['REQUEST_URI'];

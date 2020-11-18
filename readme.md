@@ -1,3 +1,10 @@
+### Running the project
+
+1. yarn install
+2. composer install
+3. yarn encore dev --watch
+4. symfony server:start
+
 ### Functionality
 
 1. User can search for any user and they will either:
