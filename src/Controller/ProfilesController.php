@@ -21,11 +21,8 @@ class ProfilesController extends AbstractController {
      * @Route("/profile/{username}", name="user_profile_search")
      */
 
-    public function retrieve_user_data(): Response
+    public function retrieve_user_data($username): Response
     {
-        // get base from url and extract it as username var
-        $uri = $_SERVER['REQUEST_URI'];
-        $username = basename($uri);
         $curl = curl_init();
         curl_setopt_array($curl, [CURLOPT_URL => "https://api.github.com/users/$username",
         CURLOPT_SSL_VERIFYPEER => false,
