@@ -27,7 +27,8 @@ export default function UserInformationTable() {
   const [invalid_search, setInvalidSearch] = useState(false);
   const keys_to_display = ["login", "name", "public_repos", "followers", "following"]
 
-  const handleSearch = (user_string) => {
+  const handleSearch = (user_string, e) => {
+    e.preventDefault();
     const previous_search_data = cached_searches.filter(search_dict => Object.keys(search_dict).includes(user_string))
     previous_search_data.length > 0 ? setDataFromCache(previous_search_data, user_string) : getUserDataFromApi(user_string)
   }
@@ -94,8 +95,11 @@ export default function UserInformationTable() {
           <TableHead>
             <TableRow className="user_search_row">
               <TableCell style={{ display: "inline-flex" }}>
-                <TextField onChange={(e) => handleSearchInput(e)} error={invalid_search} label={invalid_search ? "User not found" : "Search for a user"} />
-                <button onClick={(e) => handleSearch(user_to_search)}> Search </button>
+                <form key="user_search_form" onSubmit={(e) => handleSearch(user_to_search, e)}>
+                  <TextField onChange={(e) => handleSearchInput(e)} error={invalid_search}
+                    label={invalid_search ? "User not found" : "Search for a user"} />
+                </form>
+                <button onClick={(e) => handleSearch(user_to_search, e)}> Search </button>
               </TableCell>
             </TableRow>
             <TableRow>

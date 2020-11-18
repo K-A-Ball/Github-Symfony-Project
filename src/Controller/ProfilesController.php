@@ -27,10 +27,10 @@ class ProfilesController extends AbstractController {
         $uri = $_SERVER['REQUEST_URI'];
         $username = basename($uri);
         $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, "https://api.github.com/users/$username");
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_USERAGENT, "Accessing Github user.");
+        curl_setopt_array($curl, [CURLOPT_URL => "https://api.github.com/users/$username",
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_USERAGENT => "Accessing Github users info."]);
         $result = json_decode(curl_exec($curl), 1);
         return $this->JSON($result);
     }
