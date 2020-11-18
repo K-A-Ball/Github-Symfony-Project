@@ -15,7 +15,7 @@
 
 ### What went well
 1. Handling of positive and negative cases - where the user is not found, and communicated to the user.
-2. React handles the endpoints in a presentable way to the user, but they are still usable 'manually' (entering the /profiles/user) if you want to see just the response, allowing for flexibility.
+2. React handles the endpoints in a presentable way to the user, but they are still usable 'manually' (entering the /profile/user) if you want to see just the response, allowing for flexibility.
 3. All additional tasks covered, and I had a fun time doing these.
 
 ### What could be improved
